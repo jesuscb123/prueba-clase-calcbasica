@@ -24,7 +24,7 @@ class Consola : IEntradaSalida {
         var numero = 0.0
         do{
             try{
-                numero = pedirInfo(msj).toDouble()
+                numero = pedirInfo(msj).replace(",",".").toDouble()
                 numeroCorrecto = true
             }catch (e: InfoCalcException){
                 mostrarError("$e")
