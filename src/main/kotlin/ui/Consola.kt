@@ -1,5 +1,6 @@
 package es.iesraprog2425.pruebaes.ui
 
+import es.iesraprog2425.pruebaes.app.InfoCalcException
 import java.util.Scanner
 
 class Consola : IEntradaSalida {
@@ -15,15 +16,35 @@ class Consola : IEntradaSalida {
 
     override fun pedirInfo(msj: String): String {
         if (msj.isNotEmpty()) mostrar(msj, false)
-        return scanner.nextLine().trim()
+        return scanner.next().trim()
     }
 
     override fun pedirDouble(msj: String): Double? {
-        return pedirInfo(msj).replace(',', '.').toDoubleOrNull()
+        var numeroCorrecto = false
+        var numero = 0.0
+        do{
+            try{
+                numero = pedirInfo(msj).toDouble()
+                numeroCorrecto = true
+            }catch (e: InfoCalcException){
+                mostrarError("$e")
+            }
+        }while(!numeroCorrecto)
+        return numero
     }
 
     override fun pedirEntero(msj: String): Int? {
-        return pedirInfo(msj).toIntOrNull()
+        var numeroCorrecto = false
+        var numero = 0
+        do{
+            try{
+                numero = pedirInfo(msj).toInt()
+                numeroCorrecto = true
+            }catch (e: InfoCalcException){
+                mostrarError("$e")
+            }
+        }while(!numeroCorrecto)
+        return numero
     }
 
     override fun preguntar(msj: String): Boolean {
